@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*using Microsoft.AspNetCore.Mvc;
 using users.database;
 
 namespace BackendAPI.Controllers
 {
-    [Route("/api/login")]
+    [Route("/api/logintrucho")]
     [ApiController] 
     public class UserController : ControllerBase
     {
@@ -27,4 +27,4 @@ namespace BackendAPI.Controllers
 
         }
     }
-}
+}*/

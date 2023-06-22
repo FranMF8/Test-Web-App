@@ -8,7 +8,6 @@ namespace users.database
 {
     public class UserDto
     {
-        public int id { get; set; }
         public string email { get; set; } = null!;
         public string password { get; set; } = null!;
     }

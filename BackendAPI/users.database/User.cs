@@ -12,10 +12,9 @@ namespace users.database
     public class User
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id {  get; set; }
-        public string email { get; set; } = null!;
+        public string email { get; set; } = string.Empty;
         public byte[] passwordHash { get; set; } = null!;
         public byte[] passwordSalt { get; set; } = null!;
+        public bool deleted { get; set; } = false;
     }
 }

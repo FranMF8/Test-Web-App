@@ -14,33 +14,32 @@ namespace users.database.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     passwordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    passwordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                    passwordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    deleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.id);
+                    table.PrimaryKey("PK_Users", x => x.email);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UsersData",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     firstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     lastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UsersData", x => x.id);
+                    table.PrimaryKey("PK_UsersData", x => x.email);
                     table.ForeignKey(
-                        name: "FK_UsersData_Users_id",
-                        column: x => x.id,
+                        name: "FK_UsersData_Users_email",
+                        column: x => x.email,
                         principalTable: "Users",
-                        principalColumn: "id",
+                        principalColumn: "email",
                         onDelete: ReferentialAction.Cascade);
                 });
         }

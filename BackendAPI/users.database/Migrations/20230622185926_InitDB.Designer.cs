@@ -11,7 +11,7 @@ using users.database;
 namespace users.database.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20230622160751_InitDB")]
+    [Migration("20230622185926_InitDB")]
     partial class InitDB
     {
         /// <inheritdoc />
@@ -26,15 +26,11 @@ namespace users.database.Migrations
 
             modelBuilder.Entity("users.database.User", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
                     b.Property<string>("email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("deleted")
+                        .HasColumnType("bit");
 
                     b.Property<byte[]>("passwordHash")
                         .IsRequired()
@@ -44,16 +40,15 @@ namespace users.database.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("email");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("users.database.UserData", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("firstName")
                         .IsRequired()
@@ -63,7 +58,7 @@ namespace users.database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("email");
 
                     b.ToTable("UsersData");
                 });
@@ -72,7 +67,7 @@ namespace users.database.Migrations
                 {
                     b.HasOne("users.database.User", "user")
                         .WithMany()
-                        .HasForeignKey("id")
+                        .HasForeignKey("email")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

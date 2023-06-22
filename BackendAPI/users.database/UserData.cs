@@ -11,12 +11,11 @@ namespace users.database
     public class UserData
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        public string email { get; set; } = null!;
         public string firstName { get; set; } = null!;
         public string lastName { get; set; } = null!;
 
-        [ForeignKey("id")]
+        [ForeignKey("email")]
         public virtual User user { get; set; } = null!;
     }
 }

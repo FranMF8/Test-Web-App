@@ -4,6 +4,11 @@ namespace users.database
 {
     public class UsersContext : DbContext
     {
+
+        public UsersContext()
+        {
+
+        }
         public UsersContext(DbContextOptions<UsersContext> options) : base(options)
         {
 
