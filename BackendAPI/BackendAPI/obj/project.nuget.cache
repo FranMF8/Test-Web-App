@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "dgSpecHash": "QCM/LsutyyEujIlvROZFgn0CZPiALGjJXyUc1sZ02z60StQsfqySC+c/4ogCABcu2+l05HHysZ95YD2Yj0Yg4Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\cejit\\source\\repos\\BackendAPI\\BackendAPI\\BackendAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\cejit\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\cejit\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\cejit\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\cejit\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\cejit\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\cejit\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
+    "C:\\Users\\cejit\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.18\\microsoft.windowsdesktop.app.ref.6.0.18.nupkg.sha512",
+    "C:\\Users\\cejit\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.18\\microsoft.netcore.app.ref.6.0.18.nupkg.sha512",
+    "C:\\Users\\cejit\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.18\\microsoft.aspnetcore.app.ref.6.0.18.nupkg.sha512",
+    "C:\\Users\\cejit\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.18\\microsoft.netcore.app.host.win-x64.6.0.18.nupkg.sha512"
+  ],
+  "logs": []
+}
