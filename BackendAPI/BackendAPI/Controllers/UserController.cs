@@ -1,78 +1,30 @@
-﻿using BackendAPI.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using users.database;
 
 namespace BackendAPI.Controllers
 {
-    [ApiController]
-    [Route("login")]
+    [Route("/api/login")]
+    [ApiController] 
     public class UserController : ControllerBase
     {
-        [HttpGet]
-        [Route("list")]
-        public dynamic ListUsers() {
+        private UsersContext _context;
 
-            List<User> users = new List<User>() {
-                new User {
-                    id = 1,
-                    email = "cejita678@gmail.com",
-                    password = "fran123456789",
-                },
-                new User {
-                    id = 2,
-                    email = "cejita678@hotmail.com",
-                    password = "@Fran48987685",
-                }
-            };
-
-            return users;
+        public UserController(UsersContext context)
+        {
+            _context = context;
         }
-
         [HttpGet]
-        [Route("listbyid")]
-        public dynamic GetUser(int _id) {
-
-            return new User {
-                id = _id,
-                email = "cejita678@gmail.com",
-                password = "fran123456789",
-            };
-        }
+        public IEnumerable<User> GetAll() => _context.Users.ToList();
 
         [HttpPost]
-        [Route("save")]
-        public dynamic SaveUser(string _email, string _password) {
-            int _id = 1;
+        public IResult CheckLogin(int id)
+        {
 
-            return new {
-                success = true,
-                message = "ususario registrado",
-                id = _id,
-                email = _email,
-                password = _password
-            };
-        }
+            var eUser = _context.Users.Find(id);
+            if (eUser is null) return Results.NotFound();
 
-        [HttpPost]
-        [Route("delete")]
-        public dynamic DeleteUser(User _user) {
-            string token = Request.Headers.Where(x => x.Key == "Autorizacion").FirstOrDefault().Value;
+            return Results.Ok(eUser);
 
-            if (token != "token_valido")
-            {
-                return new
-                {
-                    success = false,
-                    message = "token invalido",
-                    result = ""
-                };
-            }
-
-            return new
-            {
-                success = true,
-                message = "usuario eliminado",
-                result = _user
-            };
         }
     }
 }

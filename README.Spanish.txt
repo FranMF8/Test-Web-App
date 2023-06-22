@@ -38,3 +38,19 @@ npm install
 6. Una vez que se hayan instalado las dependencias, ejecuta el siguiente comando en la terminal para iniciar el servidor de desarrollo:
 
 ng serve -o
+
+## Instrucciones para la base de datos
+
+1. Abre Visual Studio 2022.
+2. Abre el archivo de solución (.sln) del proyecto.
+4. Asegúrate de que el proyecto de backend esté seleccionado como proyecto de inicio.
+5. Desde la consola pon como proyecto actual users.database.
+6. ejecuta el comando:
+
+Add-Migration InitDB
+
+7. Descomenta las lineas dentro del Program.cs que dicen CREATE-TABLE.
+8. Ejecuta el backend.
+9. Vuelve a comentar las mismas lineas.
+10. Modifica la base de datos desde SQL Server Management Studio.
+

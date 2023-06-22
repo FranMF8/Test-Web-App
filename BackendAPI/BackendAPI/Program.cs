@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using users.database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,8 +19,23 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod();
     });
 });
+builder.Services.AddDbContext<UsersContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("UserConnection"))
+);
 
 var app = builder.Build();
+
+
+///////////////////////////////////////////////////////////////////////////
+/////////////////////////////CREATE-TABLES/////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+/*
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<UsersContext>();
+    context.Database.Migrate();
+}
+*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
