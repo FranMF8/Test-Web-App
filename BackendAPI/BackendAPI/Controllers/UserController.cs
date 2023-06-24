@@ -1,9 +1,9 @@
-﻿/*using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using users.database;
 
 namespace BackendAPI.Controllers
 {
-    [Route("/api/logintrucho")]
+    [Route("/api/login")]
     [ApiController] 
     public class UserController : ControllerBase
     {
@@ -13,8 +13,8 @@ namespace BackendAPI.Controllers
         {
             _context = context;
         }
-        [HttpGet]
-        public IEnumerable<User> GetAll() => _context.Users.ToList();
+        [HttpGet("list")]
+        public IEnumerable<DBUser> GetAll() => _context.Users.ToList();
 
         [HttpPost]
         public IResult CheckLogin(int id)
@@ -27,4 +27,4 @@ namespace BackendAPI.Controllers
 
         }
     }
-}*/
+}

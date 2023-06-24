@@ -1,0 +1,100 @@
+# Documentación de Controladores de Backend
+
+## UserController.cs
+
+El controlador `UserController.cs` contiene la lógica para gestionar las operaciones relacionadas con los usuarios en el backend.
+
+### Ruta: `/api/login`
+
+#### Método: `HttpGet`
+
+##### Endpoint: `/list`
+
+Este método devuelve una lista de todos los usuarios almacenados en la base de datos.
+
+## AuthController.cs
+
+El controlador `AuthController.cs` se encarga de la autenticación y gestión de usuarios en el backend.
+
+### Ruta: `/api/Auth`
+
+#### Método: `HttpPost`
+
+##### Endpoint: `/register`
+
+Este método permite registrar un nuevo usuario en la base de datos.
+
+**Parámetros:**
+- `RegisterRequestUser` (objeto): Contiene los datos necesarios para el registro del usuario, incluyendo el email, password, y controlPassword.
+
+#### Método: `HttpPost`
+
+##### Endpoint: `/login`
+
+Este método se utiliza para autenticar el inicio de sesión de un usuario y devuelve un token de autenticación.
+
+**Parámetros:**
+- `RegisterRequestUser` (objeto): Contiene los datos necesarios para la autenticación del usuario, incluyendo el email y password.
+
+#### Método: `HttpPost`
+
+##### Endpoint: `/changePassword`
+
+Este método permite cambiar la contraseña de un usuario.
+
+**Parámetros:**
+- `email` (string): El email del usuario cuya contraseña se desea cambiar.
+- `newPassword` (string): La nueva contraseña que se desea asignar al usuario.
+
+#### Método: `HttpDelete`
+
+##### Endpoint: `/hardDelete`
+
+Este método elimina permanentemente un usuario de la base de datos.
+
+**Parámetros:**
+- `email` (string): El email del usuario que se desea eliminar de forma permanente.
+
+#### Método: `HttpDelete`
+
+##### Endpoint: `/softDelete`
+
+Este método cambia el estado del campo `deleted` del usuario en la base de datos, marcándolo como eliminado.
+
+**Parámetros:**
+- `email` (string): El email del usuario cuyo estado se desea cambiar a "eliminado".
+
+#### Método: `HttpGet`
+
+##### Endpoint: `/getByEmail`
+
+Este método devuelve el usuario correspondiente al email proporcionado desde la tabla en la base de datos.
+
+**Parámetros:**
+- `email` (string): El email del usuario que se desea obtener de la base de datos.
+
+## users.database
+
+La librería de clases `users.database` contiene las clases necesarias para interactuar con la base de datos y manejar la información de los usuarios.
+
+### Clase: `User.cs`
+
+Contiene dos atributos de tipo `string` llamados `email` y `password`. Estos atributos representan el email y la contraseña del usuario.
+
+### Clase: `UserData.cs`
+
+Contiene tres atributos de tipo `string` llamados `email`, `firstName` y `lastName`. Además, contiene un atributo virtual `DBUser` llamado `user`, que representa la relación de clave foránea con la clase `DBUser`. El atributo `email` se utiliza como clave primaria en esta clase.
+
+### Clase: `DBUser.cs`
+
+Contiene un atributo de tipo `string` llamado `email`, que actúa como clave primaria. También incluye dos atributos de tipo `byte[]` llamados `passwordHash` y `passwordSalt`, que se utilizan para almacenar la información de la contraseña de forma segura. Además, tiene un atributo de tipo `bool` llamado `deleted`, que indica si el usuario ha sido eliminado o no.
+
+### Clase: `RegisterRequestUser.cs
+
+`
+
+Esta clase hereda de la clase `User.cs` y agrega un atributo de tipo `string` llamado `controlPassword`. Se utiliza para registrar un nuevo usuario en la base de datos y proporcionar una contraseña de confirmación.
+
+### Clase: `UserContext.cs`
+
+Esta clase se encarga de crear la base de datos y proporciona el contexto para interactuar con ella.

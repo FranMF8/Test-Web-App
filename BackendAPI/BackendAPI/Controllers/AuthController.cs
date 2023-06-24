@@ -14,7 +14,7 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
+        public static User user = new();
         private UsersContext _usersContext;
         private readonly IConfiguration _configuration;
         public AuthController(IConfiguration configuration, UsersContext context)
@@ -24,25 +24,34 @@ namespace BackendAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto requestUser)
+        public async Task<ActionResult<User>> Register(ControlUser requestUser)
         {
-            var newUser = new User();
+            if ( !(requestUser.password == requestUser.controlPassword) ) return BadRequest("La contraseña no coincide");
 
-            CreatePasswordHash(requestUser.password, out byte[] passwordHash, out byte[] passwordSalt);
+            var newUser = _usersContext.Users.Find(requestUser.email);
 
-            newUser.email = requestUser.email;
-            newUser.passwordHash = passwordHash;
-            newUser.passwordSalt = passwordSalt;
+            if (newUser is null)
+            {
+                newUser = new User();
 
-            _usersContext.Add(newUser);
-            await _usersContext.SaveChangesAsync();
-            return Ok(newUser);
+                CreatePasswordHash(requestUser.password, out byte[] passwordHash, out byte[] passwordSalt);
+
+                newUser.email = requestUser.email;
+                newUser.passwordHash = passwordHash;
+                newUser.passwordSalt = passwordSalt;
+
+                _usersContext.Add(newUser);
+                await _usersContext.SaveChangesAsync();
+                return Ok("El usuario ha sido creado");
+            }
+
+            return BadRequest("El usuario ya existe");
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] UserDto requestUser)
         {
-            var newUser = _usersContext.Users.Find(requestUser.email);
+            var newUser = await _usersContext.Users.FindAsync(requestUser.email);
 
             if (newUser is null)
             {
@@ -56,6 +65,26 @@ namespace BackendAPI.Controllers
             string token = CreateToken(newUser);
             return Ok("Auth Token: " + token);
 
+        }
+
+        [HttpPost("changePassword/{email}")]
+        public IResult ChangePassword(string email, string newPassword)
+        {
+            var user = _usersContext.Users.Find(email);
+
+            if (user is null)
+            {
+                return Results.BadRequest("El usuario no existe");
+            }
+
+            CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.passwordHash = passwordHash;
+            user.passwordSalt = passwordSalt;
+
+            _usersContext.Users.Update(user);
+            _usersContext.SaveChanges();
+            return Results.Ok(user);
         }
 
         [HttpGet("getByEmail/{email}")]
@@ -100,7 +129,7 @@ namespace BackendAPI.Controllers
 
             _usersContext.Users.Remove(toDeleteUser);
             _usersContext.SaveChanges();
-            return Results.Ok(toDeleteUser);
+            return Results.Ok(toDeleteUser.email + " fue eliminado");
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -127,6 +156,11 @@ namespace BackendAPI.Controllers
             {
                 new Claim(ClaimTypes.Email, user.email)
             };
+            if (true)
+            {
+
+            }            
+
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
 

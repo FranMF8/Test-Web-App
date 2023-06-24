@@ -13,7 +13,7 @@ namespace users.database
         {
 
         }
-        public DbSet<User> Users { get; set; }
+        public DbSet<DBUser> Users { get; set; }
         public DbSet<UserData> UsersData { get; set; }
 
         /*protected override void OnModelCreating(ModelBuilder modelBuilder)
