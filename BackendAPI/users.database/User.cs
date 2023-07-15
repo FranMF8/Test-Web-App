@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace users.database
 {
-    public class UserDto
+    public class User
     {
         public string email { get; set; } = null!;
         public string password { get; set; } = null!;

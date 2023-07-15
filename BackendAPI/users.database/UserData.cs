@@ -16,6 +16,6 @@ namespace users.database
         public string lastName { get; set; } = null!;
 
         [ForeignKey("email")]
-        public virtual User user { get; set; } = null!;
+        public virtual DBUser user { get; set; } = null!;
     }
 }

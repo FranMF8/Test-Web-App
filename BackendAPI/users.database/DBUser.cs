@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace users.database
 {
-    public class User
+    public class DBUser
     {
         [Key]
         public string email { get; set; } = string.Empty;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace users.database
 {
-    public class ControlUser : UserDto
+    public class RegisterRequestUser : User
     {
         public string controlPassword { get; set; } = null!;
     }

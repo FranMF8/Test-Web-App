@@ -31,13 +31,20 @@ var app = builder.Build();
 ///////////////////////////////////////////////////////////////////////////
 /////////////////////////////CREATE-TABLES/////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-/*
-using (var scope = app.Services.CreateScope())
+
+Console.WriteLine("Hacer migracion: 1");
+Console.WriteLine("No hacer migracion: cualquier tecla");
+int menu = int.Parse(Console.ReadLine());
+if (menu == 1)
 {
-    var context = scope.ServiceProvider.GetRequiredService<UsersContext>();
-    context.Database.Migrate();
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<UsersContext>();
+        context.Database.Migrate();
+    }
 }
-*/
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

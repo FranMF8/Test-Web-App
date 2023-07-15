@@ -14,7 +14,7 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new();
+        public static DBUser user = new();
         private UsersContext _usersContext;
         private readonly IConfiguration _configuration;
         public AuthController(IConfiguration configuration, UsersContext context)
@@ -24,17 +24,17 @@ namespace BackendAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(ControlUser requestUser)
+        public async Task<ActionResult<DBUser>> Register(RegisterRequestUser requestUser)
         {
-            if ( !(requestUser.password == requestUser.controlPassword) ) return BadRequest("La contraseña no coincide");
+            if ( requestUser.password != requestUser.controlPassword ) return Unauthorized("La contraseña no coincide.");
 
             var newUser = _usersContext.Users.Find(requestUser.email);
 
             if (newUser is null)
             {
-                newUser = new User();
+                newUser = new DBUser();
 
-                CreatePasswordHash(requestUser.password, out byte[] passwordHash, out byte[] passwordSalt);
+                CreatePasswordHash(requestUser.password, out byte[] passwordHash, out byte[] passwordSalt); //Creates encrypted password
 
                 newUser.email = requestUser.email;
                 newUser.passwordHash = passwordHash;
@@ -45,22 +45,18 @@ namespace BackendAPI.Controllers
                 return Ok("El usuario ha sido creado");
             }
 
-            return BadRequest("El usuario ya existe");
+            return Unauthorized("El usuario ya existe");
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login([FromBody] UserDto requestUser)
+        public async Task<ActionResult<string>> Login(User requestUser)
         {
-            var newUser = await _usersContext.Users.FindAsync(requestUser.email);
+            var newUser = _usersContext.Users.Find(requestUser.email);
 
-            if (newUser is null)
-            {
-                return BadRequest("User not found.");
-            }
+            if (newUser is null) return NotFound("User not found.");
+
             if (!VerifyPasswordHash(requestUser.password, newUser.passwordHash, newUser.passwordSalt))
-            {
-                return BadRequest("Wrong password.");
-            }
+            {   return Unauthorized("Wrong password."); }
 
             string token = CreateToken(newUser);
             return Ok("Auth Token: " + token);
@@ -72,10 +68,7 @@ namespace BackendAPI.Controllers
         {
             var user = _usersContext.Users.Find(email);
 
-            if (user is null)
-            {
-                return Results.BadRequest("El usuario no existe");
-            }
+            if (user is null) return Results.NotFound("El usuario no existe");
 
             CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -150,16 +143,12 @@ namespace BackendAPI.Controllers
             }
         }
 
-        private string CreateToken(User user)
+        private string CreateToken(DBUser user)
         {
             List<Claim> claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Email, user.email)
-            };
-            if (true)
-            {
-
-            }            
+            };          
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));

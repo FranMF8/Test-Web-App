@@ -16,12 +16,12 @@ namespace users.database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.7")
+                .HasAnnotation("ProductVersion", "7.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("users.database.User", b =>
+            modelBuilder.Entity("users.database.DBUser", b =>
                 {
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(450)");
@@ -40,6 +40,30 @@ namespace users.database.Migrations
                     b.HasKey("email");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("users.database.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Dni")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("users.database.UserData", b =>
@@ -62,7 +86,7 @@ namespace users.database.Migrations
 
             modelBuilder.Entity("users.database.UserData", b =>
                 {
-                    b.HasOne("users.database.User", "user")
+                    b.HasOne("users.database.DBUser", "user")
                         .WithMany()
                         .HasForeignKey("email")
                         .OnDelete(DeleteBehavior.Cascade)
